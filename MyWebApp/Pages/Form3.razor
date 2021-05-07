@@ -1,0 +1,31 @@
+﻿@using Meziantou.AspNetCore.Components
+@using System.ComponentModel.DataAnnotations
+
+@page "/form3"
+<h3>Erfassen Sie hier Ihre Kontaktdaten.</h3>
+
+
+
+<EditForm Model="NewUser" OnSubmit="() => { }">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <GenericForm Model="NewUser" EditorClass="form-control">
+        <FieldTemplate Context="field">
+            <div class="form-group">
+                <label for="@field.EditorId">@field.DisplayName</label>
+                @field.EditorTemplate
+                @field.FieldValidationTemplate
+            </div>
+        </FieldTemplate>
+    </GenericForm>
+
+    <button type="submit" class="btn btn-info">Submit</button>
+</EditForm>
+
+
+
+@code {
+    User NewUser { get; set; } = new User();
+
+}

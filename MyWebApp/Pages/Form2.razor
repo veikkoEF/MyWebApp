@@ -1,0 +1,81 @@
+﻿@page "/form2"
+<h3>Erfassen Sie hier Ihre Kontaktdaten.</h3>
+
+
+<div class="container">
+
+    <EditForm EditContext="@context" OnSubmit="@SubmitEventHandler">
+        <DataAnnotationsValidator />
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <label for="firstName">Vorname</label>
+                        <input type="text" class="form-control" id="firstName" @bind-value="@NewUser.FirstName" placeholder="Vorname hier eingeben" />
+                        <ValidationMessage For="@(()=>NewUser.FirstName)" />
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <label for="lastName">Nachname</label>
+                        <input type="text" class="form-control" id="lastName" @bind-value="@NewUser.LastName" placeholder="Nachname hier eingeben.." />
+                        <ValidationMessage For="@(()=>NewUser.LastName)" />
+                    </div>
+                </div>
+
+
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <label for="email">E-Mail-Adresse</label>
+                        <input type="text" class="form-control" id="email" @bind-value="@NewUser.Email" placeholder="Die E-Mail-Adresse bitte..." />
+                        <ValidationMessage For="@(()=>NewUser.Email)" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-info" Style="margin-top:10px">Nutzer hinzufügen</button>
+            </div>
+
+            @if (displayValidationErrorMessages)
+            {
+                <div class="col-md-4" style="margin-top:10px">
+                    <label>Prüfhinweise: </label>
+                    <ValidationSummary />
+                </div>
+            }
+        </div>
+    </EditForm>
+
+    @if (displayUserAddedToDB)
+    {
+        <div class="row bg-success text-white" style="margin-top:10px; height:40px">
+            <label class="p-2">Benutzer hinzugefügt ... </label>
+        </div>
+    }
+</div>
+
+
+
+@code {
+    User NewUser = new User();
+    EditContext context;
+    protected override Task OnInitializedAsync()
+    {
+        context = new EditContext(NewUser);
+        return base.OnInitializedAsync();
+    }
+    bool displayValidationErrorMessages = false;
+    bool displayUserAddedToDB = false;
+    private void SubmitEventHandler(EditContext context)
+    {
+        if (context.Validate())
+        {
+            displayValidationErrorMessages = false;
+            displayUserAddedToDB = true;
+        }
+        else
+        {
+            displayValidationErrorMessages = true;
+            displayUserAddedToDB = false;
+        }
+    }
+}
