@@ -1,2 +1,2 @@
 # MyWebApp
-Examples in Balzor (WebApp)
+Examples in Blazor (WebApp)
